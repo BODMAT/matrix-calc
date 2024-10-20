@@ -1,0 +1,160 @@
+@charset "UTF-8";
+/*Обнуление*/
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+:focus, :active {
+  outline: none;
+}
+
+a:focus, a:active {
+  outline: none;
+}
+
+nav, footer, header, aside {
+  display: block;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 16px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input, button, textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a, a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*Миксин adaptiv-font*/
+/*--------------------*/
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  color: #fff;
+  background-color: #0e0e2c;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+.wrapper {
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 20px 0;
+  border-bottom: 2px solid #000;
+}
+
+[class*=__container] {
+  max-width: 1180px;
+  margin: 0 auto;
+  box-sizing: content-box;
+  padding: 0 15px;
+}
+
+.inputs {
+  padding: 20px 0;
+  border-bottom: 2px solid #000;
+}
+.inputs__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.inputs__operations {
+  padding: 0 5px;
+  display: flex;
+  flex-direction: column;
+}
+.inputs__operations button {
+  padding: 3px;
+  margin: 5px;
+  border: 1px solid #000;
+}
+.inputs__operations button:hover {
+  background-color: rgb(191, 188, 188);
+}
+
+.row {
+  display: flex;
+}
+
+.matrix-cell {
+  padding: 1px;
+  width: 50px;
+  height: 20px;
+  border: 1px solid #000;
+  background-color: rgb(168, 168, 168);
+}
+
+.outputs {
+  padding: 20px 0;
+}
+.outputs__title {
+  padding-bottom: 10px;
+}
+.outputs__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.outputs__content * {
+  white-space: pre-wrap;
+  width: 100%;
+  color: #000;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #fff;
+}

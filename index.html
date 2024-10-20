@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <link type="image/x-icon" rel="shortcut icon" href="img/favicon.ico">
+    <link type="image/png" sizes="512x512" rel="icon" href="img/matrix.png">
+    <title>Matrix calc</title>
+</head>
+
+<body>
+    <div class="wrapper wrapper__container">
+        <header class="header">
+            <h2 class="header__title">Matrix calculator</h2>
+        </header>
+        <main class="main">
+            <section class="inputs">
+                <h2 class="inputs__title">Inputs:</h2>
+                <div class="inputs__content">
+                    <div class="inputs__matrix matrix1">
+                        <div class="row">
+                            <input type="text" class="matrix-cell">
+                            <input type="text" class="matrix-cell">
+                        </div>
+                        <div class="row">
+                            <input type="text" class="matrix-cell">
+                            <input type="text" class="matrix-cell">
+                        </div>
+                    </div>
+                    <div class="inputs__operations">
+                        <button class="add">Add</button>
+                        <button class="multiply">Multiply</button>
+                        <button class="transponed">Transpone (Matrix 1)</button>
+                        <button class="determinate">Determinate (Matrix 1)</button>
+                        <button class="clear">Clear</button>
+                        <button class="addRow1">Add Row (Matrix 1)</button>
+                        <button class="addRow2">Add Row (Matrix 2)</button>
+                        <button class="addColumn1">Add Column (Matrix 1)</button>
+                        <button class="addColumn2">Add Column (Matrix 2)</button>
+                        <button class="removeRow1">Remove Row (Matrix 1)</button>
+                        <button class="removeRow2">Remove Row (Matrix 2)</button>
+                        <button class="removeColumn1">Remove Column (Matrix 1)</button>
+                        <button class="removeColumn2">Remove Column (Matrix 2)</button>
+                    </div>
+                    <div class="inputs__matrix matrix2">
+                        <div class="row">
+                            <input type="text" class="matrix-cell">
+                            <input type="text" class="matrix-cell">
+                        </div>
+                        <div class="row">
+                            <input type="text" class="matrix-cell">
+                            <input type="text" class="matrix-cell">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="outputs">
+                <h2 class="outputs__title">Outputs:</h2>
+                <div class="outputs__content">
+                </div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="/js/client.js"></script>
+</body>
+
+</html>
