@@ -94,7 +94,9 @@ MyMatrix.prototype.calcDeterminant = function (): number {
             }
 
             if (matrixCopy[i][i] === 0) {
-                throw new Error("Матриця сингулярна ( її визначник неможливо обчислити, і зазвичай таку матрицю вважають неінвертовною). Під час обчислення визначника відбувається ділення на нуль в такому випадку");
+                //Singular matrix
+                this._determinant = 0;
+                return 0;
             }
 
             const factor = matrixCopy[i][i];

@@ -1,4 +1,5 @@
 import MyMatrix from "./MatrixOperations.js";
+const MAXCOLUMNS = 7;
 const add = document.querySelector(".add");
 const multiply = document.querySelector(".multiply");
 const transponed = document.querySelector(".transponed");
@@ -12,48 +13,34 @@ const removeRow1 = document.querySelector(".removeRow1");
 const removeColumn2 = document.querySelector(".removeColumn2");
 const removeRow2 = document.querySelector(".removeRow2");
 const clear = document.querySelector(".clear");
-addRow1.addEventListener("click", () => {
-    const position = document.querySelector(".matrix1");
+function addRow(matrixClass) {
+    const position = document.querySelector(matrixClass);
     const row = position.querySelector(".row");
     const elNum = row.querySelectorAll(".matrix-cell");
-    let str = `<div class="row">
-    `;
-    elNum.forEach(row => {
-        str += `<input type="text" class="matrix-cell">
-        `;
+    let str = `<div class="row">`;
+    elNum.forEach(() => {
+        str += `<input type="text" class="matrix-cell">`;
     });
     str += `</div>`;
     position.insertAdjacentHTML("beforeend", str);
-});
-addRow2.addEventListener("click", () => {
-    const position = document.querySelector(".matrix2");
-    const row = position.querySelector(".row");
-    const elNum = row.querySelectorAll(".matrix-cell");
-    let str = `<div class="row">
-    `;
-    elNum.forEach(row => {
-        str += `<input type="text" class="matrix-cell">
-        `;
-    });
-    str += `</div>`;
-    position.insertAdjacentHTML("beforeend", str);
-});
-addColumn1.addEventListener("click", () => {
-    const position = document.querySelector(".matrix1");
+}
+function addColumn(matrixClass) {
+    const position = document.querySelector(matrixClass);
     const rows = position.querySelectorAll(".row");
-    rows.forEach(row => {
+    const numOfColumns = rows[0].querySelectorAll(".matrix-cell").length;
+    for (let i = 0; i < rows.length && numOfColumns <= MAXCOLUMNS; i++) {
+        let row = rows[i];
         row.insertAdjacentHTML("beforeend", `<input type="text" class="matrix-cell">`);
-    });
-});
-addColumn2.addEventListener("click", () => {
-    const position = document.querySelector(".matrix2");
-    const rows = position.querySelectorAll(".row");
-    rows.forEach(row => {
-        row.insertAdjacentHTML("beforeend", `<input type="text" class="matrix-cell">`);
-    });
-});
-removeColumn1.addEventListener("click", () => {
-    const position = document.querySelector(".matrix1");
+    }
+}
+function removeRow(matrixClass) {
+    const position = document.querySelector(matrixClass);
+    if (position.querySelectorAll(".row").length > 1) {
+        position.removeChild(position.lastElementChild);
+    }
+}
+function removeColumn(matrixClass) {
+    const position = document.querySelector(matrixClass);
     const rows = position.querySelectorAll(".row");
     rows.forEach(row => {
         const cells = row.querySelectorAll(".matrix-cell");
@@ -61,52 +48,21 @@ removeColumn1.addEventListener("click", () => {
             row.removeChild(cells[cells.length - 1]);
         }
     });
-});
-removeColumn2.addEventListener("click", () => {
-    const position = document.querySelector(".matrix2");
-    const rows = position.querySelectorAll(".row");
-    rows.forEach(row => {
-        const cells = row.querySelectorAll(".matrix-cell");
-        if (cells.length > 1) {
-            row.removeChild(cells[cells.length - 1]);
-        }
-    });
-});
-removeRow1.addEventListener("click", () => {
-    const position = document.querySelector(".matrix1");
-    if (position.querySelectorAll(".row").length > 1) {
-        position.removeChild(position.lastElementChild);
-    }
-});
-removeRow2.addEventListener("click", () => {
-    const position = document.querySelector(".matrix2");
-    if (position.querySelectorAll(".row").length > 1) {
-        position.removeChild(position.lastElementChild);
-    }
-});
+}
+addRow1.addEventListener("click", () => addRow(".matrix1"));
+addRow2.addEventListener("click", () => addRow(".matrix2"));
+addColumn1.addEventListener("click", () => addColumn(".matrix1"));
+addColumn2.addEventListener("click", () => addColumn(".matrix2"));
+removeRow1.addEventListener("click", () => removeRow(".matrix1"));
+removeRow2.addEventListener("click", () => removeRow(".matrix2"));
+removeColumn1.addEventListener("click", () => removeColumn(".matrix1"));
+removeColumn2.addEventListener("click", () => removeColumn(".matrix2"));
 clear.addEventListener("click", () => {
     const inputs = document.querySelectorAll(".matrix-cell");
     inputs.forEach((input) => {
         input.value = "";
     });
 });
-const originalLog = console.log.bind(console);
-console.log = (...args) => {
-    displayMessage(args.join(" "));
-};
-window.addEventListener("unhandledrejection", (event) => {
-    displayMessage(`Помилка (promise): ${event.reason}`);
-});
-window.addEventListener("error", (event) => {
-    displayMessage(`Помилка: ${event.error?.message || event.message}`);
-});
-function displayMessage(message) {
-    const outputElementContainer = document.querySelector(".outputs__content");
-    const outputElement = document.createElement("pre");
-    outputElement.classList.add("console-output");
-    outputElementContainer.prepend(outputElement);
-    outputElement.innerHTML = message;
-}
 function makeMyMatrixFromInputs(matrix) {
     let inputs = Array.from(matrix.querySelectorAll(".matrix-cell"));
     let width = matrix.querySelector(".row")?.querySelectorAll(".matrix-cell")?.length || 0;
@@ -125,56 +81,51 @@ function makeMyMatrixFromInputs(matrix) {
     }
     return new MyMatrix(matrixArray);
 }
-add.addEventListener("click", () => {
+const originalLog = console.log.bind(console);
+console.log = (...args) => {
+    displayMessage(args.join(" "));
+};
+window.addEventListener("unhandledrejection", (event) => {
+    displayMessage(`Помилка(promise): ${event.reason}`);
+});
+window.addEventListener("error", (event) => {
+    displayMessage(`Помилка: ${event.error?.message || event.message}`);
+});
+function displayMessage(message) {
+    const outputElementContainer = document.querySelector(".outputs__content");
+    const outputElement = document.createElement("pre");
+    outputElement.classList.add("console-output");
+    outputElementContainer.prepend(outputElement);
+    outputElement.innerHTML = message;
+}
+add.addEventListener("click", () => performMatrixOperation("add"));
+multiply.addEventListener("click", () => performMatrixOperation("multiply"));
+transponed.addEventListener("click", () => performSingleMatrixOperation("transponeMe"));
+determinate.addEventListener("click", () => performSingleMatrixOperation("calcDeterminant"));
+function performMatrixOperation(operation) {
     const matrix1 = document.querySelector(".matrix1");
     const matrix2 = document.querySelector(".matrix2");
     const matrixFirst = makeMyMatrixFromInputs(matrix1);
     const matrixSecond = makeMyMatrixFromInputs(matrix2);
-    const matrixResult = matrixFirst.add(matrixSecond);
+    const matrixResult = matrixFirst[operation](matrixSecond);
     const matrixResultStr = matrixResult.toString();
     if (matrixResultStr.includes("NaN")) {
         console.log("Матриця порожня або її елементи не містять чисел");
     }
     else {
-        console.log("Результат додавання:" + "\n" + matrixResultStr);
+        console.log(`Результат ${operation === "add" ? "додавання" : "множення"}:\n${matrixResultStr}`);
     }
-});
-multiply.addEventListener("click", () => {
-    const matrix1 = document.querySelector(".matrix1");
-    const matrix2 = document.querySelector(".matrix2");
-    const matrixFirst = makeMyMatrixFromInputs(matrix1);
-    const matrixSecond = makeMyMatrixFromInputs(matrix2);
-    const matrixResult = matrixFirst.multiply(matrixSecond);
-    const matrixResultStr = matrixResult.toString();
-    if (matrixResultStr.includes("NaN")) {
-        console.log("Матриця порожня або її елементи не містять чисел");
-    }
-    else {
-        console.log("Результат множення:" + "\n" + matrixResultStr);
-    }
-});
-transponed.addEventListener("click", () => {
+}
+function performSingleMatrixOperation(operation) {
     const matrix1 = document.querySelector(".matrix1");
     const matrixFirst = makeMyMatrixFromInputs(matrix1);
-    matrixFirst.transponeMe();
-    const matrixResultStr = matrixFirst.toString();
-    if (matrixResultStr.includes("NaN")) {
-        console.log("Матриця порожня або її елементи не містять чисел");
-    }
-    else {
-        console.log("Результат транспонування:" + "\n" + matrixResultStr);
-    }
-});
-determinate.addEventListener("click", () => {
-    const matrix1 = document.querySelector(".matrix1");
-    const matrixFirst = makeMyMatrixFromInputs(matrix1);
-    const matrixResultStr = matrixFirst.toString();
-    if (matrixResultStr.includes("NaN")) {
-        console.log("Матриця порожня або її елементи не містять чисел");
-    }
-    else {
+    if (operation === "calcDeterminant") {
         const determinant = matrixFirst.calcDeterminant();
-        console.log("Детермінант:" + determinant);
+        console.log("Детермінант: " + determinant);
     }
-});
+    else {
+        matrixFirst.transponeMe();
+        console.log("Результат транспонування:\n" + matrixFirst.toString());
+    }
+}
 //# sourceMappingURL=client.js.map

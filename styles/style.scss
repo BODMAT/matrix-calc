@@ -37,10 +37,35 @@ h1, h2, h3, h4, h5, h6 {
     padding: 20px 0;
     border-bottom: 2px solid #000;
 
+    &__title {
+        margin-bottom: 10px;
+    }
+
     &__content {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 10px 0;
+
+        
+        @media (max-width: 991.98px) {
+            flex-wrap: wrap;
+            & > * {
+                flex: 0 1 50%;
+            }
+            &>:first-child{
+                margin: 0 auto;
+            }
+            &>:last-child{
+                margin: 0 auto;
+                order: 2;
+            }
+            &>:nth-child(2){
+                flex: 1 1 100%;
+                order: 3;
+            }
+
+        }
     }
 
     &__operations {
@@ -56,6 +81,19 @@ h1, h2, h3, h4, h5, h6 {
                 background-color: rgb(191, 188, 188);
             }
         }
+        @media (max-width: 991.98px) {
+            margin-top: 20px;
+        }
+    }
+
+    &__matrix {
+        max-width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 5px;
     }
 }
 
@@ -69,6 +107,10 @@ h1, h2, h3, h4, h5, h6 {
     height: 20px;
     border: 1px solid #000;
     background-color: rgb(168, 168, 168);
+    @media (max-width: 479.98px) {
+        width: 35px;
+        height: 20px;
+    }
 }
 
 .outputs {

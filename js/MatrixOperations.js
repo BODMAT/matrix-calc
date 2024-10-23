@@ -70,7 +70,8 @@ MyMatrix.prototype.calcDeterminant = function () {
                 [matrixCopy[i], matrixCopy[maxIndex]] = [matrixCopy[maxIndex], matrixCopy[i]];
             }
             if (matrixCopy[i][i] === 0) {
-                throw new Error("Матриця сингулярна ( її визначник неможливо обчислити, і зазвичай таку матрицю вважають неінвертовною). Під час обчислення визначника відбувається ділення на нуль в такому випадку");
+                this._determinant = 0;
+                return 0;
             }
             const factor = matrixCopy[i][i];
             for (let j = i + 1; j < size; j++) {
