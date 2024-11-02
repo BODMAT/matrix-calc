@@ -95,6 +95,22 @@ h1, h2, h3, h4, h5, h6 {
 .header {
   padding: 20px 0;
   border-bottom: 2px solid #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+@media (max-width: 567.98px) {
+  .header__title {
+    flex: 1 1 100%;
+  }
+}
+.header__files {
+  max-width: 100%;
+  gap: 5px;
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
 }
 
 [class*=__container] {
@@ -163,6 +179,10 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   padding: 10px 5px;
 }
+.inputs__matrix.from-file {
+  background-color: rgba(255, 255, 255, 0.2352941176);
+  text-align: left;
+}
 
 .row {
   display: flex;
@@ -200,4 +220,31 @@ h1, h2, h3, h4, h5, h6 {
   padding: 5px;
   border-radius: 10px;
   background-color: #fff;
+}
+
+input[type=file] {
+  visibility: hidden;
+  position: relative;
+  width: 180px;
+  height: 32px;
+}
+
+input[type=file]:before {
+  content: attr(placeholder);
+  visibility: visible;
+  box-sizing: border-box;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 16px;
+  padding: 8px 32px 8px 8px;
+  color: rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
 }

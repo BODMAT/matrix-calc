@@ -83,25 +83,29 @@ clear.addEventListener("click", () => {
 
 // Функція перетворення вхідних даних в об'єкт MyMatrix
 function makeMyMatrixFromInputs(matrix: HTMLDivElement): MyMatrix {
-    let inputs = Array.from(matrix.querySelectorAll(".matrix-cell")) as HTMLInputElement[];
-    let width = matrix.querySelector(".row")?.querySelectorAll(".matrix-cell")?.length || 0;
-    let height = matrix.querySelectorAll(".row")?.length || 0;
+    if (!!matrix.querySelector(".matrix-cell")) {
+        let inputs = Array.from(matrix.querySelectorAll(".matrix-cell")) as HTMLInputElement[];
+        let width = matrix.querySelector(".row")?.querySelectorAll(".matrix-cell")?.length || 0;
+        let height = matrix.querySelectorAll(".row")?.length || 0;
 
-    if (width === 0 || height === 0) {
-        throw new Error("Matrix is empty");
-    }
-
-    let matrixArray: number[][] = [];
-    for (let i = 0; i < height; i++) {
-        let rowArray: number[] = [];
-        for (let j = 0; j < width; j++) {
-            let index = i * width + j;
-            rowArray.push(parseFloat(inputs[index].value));
+        if (width === 0 || height === 0) {
+            throw new Error("Matrix is empty");
         }
-        matrixArray.push(rowArray);
+
+        let matrixArray: number[][] = [];
+        for (let i = 0; i < height; i++) {
+            let rowArray: number[] = [];
+            for (let j = 0; j < width; j++) {
+                let index = i * width + j;
+                rowArray.push(parseFloat(inputs[index].value));
+            }
+            matrixArray.push(rowArray);
+        }
+        return new MyMatrix(matrixArray);
+    } else {
+        return new MyMatrix(matrix.textContent.replace(/<br\s*\/?>/gi, "\n"));
     }
 
-    return new MyMatrix(matrixArray);
 }
 
 const originalLog = console.log.bind(console);
@@ -160,3 +164,70 @@ function performSingleMatrixOperation(operation: "transponeMe" | "calcDeterminan
         console.log("Результат транспонування:\n" + matrixFirst.toString());
     }
 }
+
+//from file
+const file1 = document.getElementById("file1") as HTMLInputElement;
+const file2 = document.getElementById("file2") as HTMLInputElement;
+file1.addEventListener("change", handleFileSelect);
+file2.addEventListener("change", handleFileSelect);
+
+function handleFileSelect(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        readFile(file, event.target);
+    } else {
+        console.log("Файл не вибрано");
+    }
+}
+
+function readFile(file: File, eventInput: EventTarget) {
+    const reader = new FileReader();
+
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target && e.target.result) {
+            const text: string = e.target.result as string;
+
+            if (eventInput === file1) {
+                console.log("Матриця 1 з файлу: \n" + text);
+                const m1 = document.querySelector(".matrix1");
+                m1.innerHTML = "";
+                m1.classList.add("from-file")
+                m1.innerHTML = text.replace(/\n/g, "<br>");
+                addColumn1.disabled = true;
+                addRow1.disabled = true;
+                removeColumn1.disabled = true;
+                removeRow1.disabled = true;
+            } else if (eventInput === file2) {
+                console.log("Матриця 2 з файлу: \n" + text);
+                const m2 = document.querySelector(".matrix2");
+                m2.innerHTML = "";
+                m2.classList.add("from-file")
+                m2.innerHTML = text.replace(/\n/g, "<br>");
+                addColumn2.disabled = true;
+                addRow2.disabled = true;
+                removeColumn2.disabled = true;
+                removeRow2.disabled = true;
+            } else {
+                console.log("Помилка в знайденні input");
+            }
+        }
+    };
+
+    reader.onerror = (e: ProgressEvent<FileReader>) => {
+        console.error("Помилка читання файла:", e);
+    };
+
+    reader.readAsText(file);
+}
+
+file1.addEventListener("change", function () {
+    if (this.files && this.files.length > 0) {
+        this.setAttribute("placeholder", this.files[0].name);
+    }
+});
+file2.addEventListener("change", function () {
+    if (this.files && this.files.length > 0) {
+        this.setAttribute("placeholder", this.files[0].name);
+    }
+});
